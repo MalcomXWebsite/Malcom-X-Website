@@ -459,6 +459,20 @@
             0%, 100% { transform: translate(-50%, -50%) scale(1); }
             50% { transform: translate(-50%, -50%) scale(1.1); }
         }
+        
+        /* Contenu de la roue */
+        .segment-content {
+            position: absolute;
+            top: 65%;
+            left: 65%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 0 5px rgba(0,0,0,0.8);
+            width: 70px;
+            text-align: center;
+        }
 
         /* Éléments iconiques */
         .iconic-grid {
@@ -549,6 +563,66 @@
             }
         }
 
+        /* Modal pour les statistiques */
+        .stat-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .stat-modal-content {
+            background: linear-gradient(135deg, #000, #1a0000);
+            border: 3px solid #dc1414;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 0 50px rgba(220, 20, 20, 0.8);
+            text-align: center;
+        }
+
+        .stat-modal-title {
+            font-size: 2.2rem;
+            color: #dc1414;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .stat-modal-desc {
+            font-size: 1.3rem;
+            color: #e0e0e0;
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+
+        .close-btn {
+            background: linear-gradient(135deg, #dc1414, #8b0000);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .close-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(220, 20, 20, 0.6);
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .nav-container {
@@ -573,12 +647,26 @@
                 width: 350px;
                 height: 350px;
             }
+            
+            .segment-content {
+                font-size: 0.9rem;
+                width: 50px;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Particules dramatiques -->
     <div id="dramatic-particles"></div>
+
+    <!-- Modal pour les statistiques -->
+    <div id="stat-modal" class="stat-modal">
+        <div class="stat-modal-content">
+            <h2 id="stat-modal-title" class="stat-modal-title"></h2>
+            <p id="stat-modal-desc" class="stat-modal-desc"></p>
+            <button class="close-btn" onclick="closeStatModal()">Fermer</button>
+        </div>
+    </div>
 
     <!-- Navigation -->
     <nav class="nav">
@@ -625,7 +713,7 @@
                         <div class="timeline-label">Naissance</div>
                         <div class="timeline-details">
                             <h4 style="color: #dc1414; margin-bottom: 15px; font-size: 1.2rem;">Naissance à Omaha</h4>
-                            <p>[Ajoutez ici les détails dramatiques sur sa naissance et l'environnement hostile de l'époque]</p>
+                            <p>Malcolm Little naît le 19 mai 1925 dans un Omaha rongé par le Ku Klux Klan. Sa famille est contrainte de fuir à Lansing, Michigan, pour échapper aux menaces de mort.</p>
                         </div>
                     </div>
 
@@ -635,7 +723,7 @@
                         <div class="timeline-label">Tragédie</div>
                         <div class="timeline-details">
                             <h4 style="color: #dc1414; margin-bottom: 15px; font-size: 1.2rem;">Mort Mystérieuse du Père</h4>
-                            <p>[Décrivez l'impact traumatisant de cette perte sur le jeune Malcolm]</p>
+                            <p>Earl Little, père de Malcolm, est retrouvé mort sur une voie ferrée, victime présumée d'un crime raciste. La famille sombre dans la pauvreté et la mère de Malcolm est internée en hôpital psychiatrique.</p>
                         </div>
                     </div>
 
@@ -645,7 +733,7 @@
                         <div class="timeline-label">Prison</div>
                         <div class="timeline-details">
                             <h4 style="color: #dc1414; margin-bottom: 15px; font-size: 1.2rem;">Transformation Spirituelle</h4>
-                            <p>[Expliquez sa métamorphose intellectuelle et spirituelle derrière les barreaux]</p>
+                            <p>Condamné à 10 ans de prison pour cambriolage, Malcolm découvre l'enseignement de Elijah Muhammad. Il dévore les livres de la bibliothèque et devient Malcolm X, rejetant son nom d'esclave.</p>
                         </div>
                     </div>
 
@@ -655,7 +743,7 @@
                         <div class="timeline-label">Réveil</div>
                         <div class="timeline-details">
                             <h4 style="color: #dc1414; margin-bottom: 15px; font-size: 1.2rem;">Nation of Islam</h4>
-                            <p>[Détaillez sa conversion et son ascension comme leader charismatique]</p>
+                            <p>Libéré sur parole, Malcolm rejoint la Nation of Islam. Son charisme et ses discours enflammés en font le ministre le plus célèbre du mouvement. Il transforme un temple de 500 membres en 30 000 fidèles en dix ans.</p>
                         </div>
                     </div>
 
@@ -665,7 +753,7 @@
                         <div class="timeline-label">Illumination</div>
                         <div class="timeline-details">
                             <h4 style="color: #dc1414; margin-bottom: 15px; font-size: 1.2rem;">Pèlerinage à La Mecque</h4>
-                            <p>[Décrivez comment ce voyage a révolutionné sa vision du monde]</p>
+                            <p>Après avoir quitté la Nation of Islam, Malcolm effectue le Hajj. Il y découvre l'islam sunnite et l'unité des races, ce qui transforme radicalement sa vision de la lutte raciale.</p>
                         </div>
                     </div>
 
@@ -675,7 +763,7 @@
                         <div class="timeline-label">Éternité</div>
                         <div class="timeline-details">
                             <h4 style="color: #dc1414; margin-bottom: 15px; font-size: 1.2rem;">Assassinat et Immortalité</h4>
-                            <p>[Relatez les circonstances tragiques et l'impact éternel de sa mort]</p>
+                            <p>Le 21 février 1965, Malcolm X est assassiné lors d'un meeting à Harlem par des membres de la Nation of Islam. Plus de 1 500 personnes assistent à ses funérailles. Son héritage révolutionnaire traverse les décennies.</p>
                         </div>
                     </div>
                 </div>
@@ -695,25 +783,25 @@
                 <div class="iconic-item">
                     <div class="iconic-symbol">📚</div>
                     <div style="font-size: 1.5rem; color: #dc1414; font-weight: bold; margin-bottom: 15px;">Révolution Intellectuelle</div>
-                    <div style="color: #e0e0e0;">[Ajoutez des informations sur son impact révolutionnaire sur l'éducation]</div>
+                    <div style="color: #e0e0e0;">Malcolm X a révolutionné la conscience noire par son éloquence et sa maîtrise des médias. Son autobiographie, écrite avec Alex Haley, reste un best-seller mondial et un manifeste de l'émancipation.</div>
                 </div>
                 
                 <div class="iconic-item">
                     <div class="iconic-symbol">✊🏿</div>
                     <div style="font-size: 1.5rem; color: #dc1414; font-weight: bold; margin-bottom: 15px;">Fierté et Dignité</div>
-                    <div style="color: #e0e0e0;">[Décrivez son influence sur le mouvement Black Power]</div>
+                    <div style="color: #e0e0e0;">Il a insufflé une fierté inébranlable aux Noirs américains, popularisant le concept de 'Black is Beautiful'. Son influence directe a nourri le Black Power et les Black Panthers.</div>
                 </div>
                 
                 <div class="iconic-item">
                     <div class="iconic-symbol">🌍</div>
                     <div style="font-size: 1.5rem; color: #dc1414; font-weight: bold; margin-bottom: 15px;">Vision Mondiale</div>
-                    <div style="color: #e0e0e0;">[Expliquez sa vision internationale des droits humains]</div>
+                    <div style="color: #e0e0e0;">Malcolm X a internationalisé la lutte noire, liant l'oppression aux USA au colonialisme en Afrique. Son discours à l'OUA en 1964 a fait des droits civiques un enjeu des droits de l'homme à l'ONU.</div>
                 </div>
                 
                 <div class="iconic-item">
                     <div class="iconic-symbol">🎭</div>
                     <div style="font-size: 1.5rem; color: #dc1414; font-weight: bold; margin-bottom: 15px;">Icône Culturelle</div>
-                    <div style="color: #e0e0e0;">[Mentionnez son influence sur la culture populaire mondiale]</div>
+                    <div style="color: #e0e0e0;">De Spike Lee à Jay-Z, Malcolm X reste une icône culturelle majeure. Son image et ses citations résonnent dans le hip-hop, le cinéma et la mode, symbolisant la résistance et l'authenticité.</div>
                 </div>
             </div>
         </div>
@@ -730,3 +818,162 @@
             <div class="stats-wheel-container">
                 <div class="stats-wheel">
                     <div class="wheel-segment" onclick="showStatDetail(1)">
+                        <div class="segment-content">13 ans</div>
+                    </div>
+                    <div class="wheel-segment" onclick="showStatDetail(2)">
+                        <div class="segment-content">300+</div>
+                    </div>
+                    <div class="wheel-segment" onclick="showStatDetail(3)">
+                        <div class="segment-content">30 000</div>
+                    </div>
+                    <div class="wheel-segment" onclick="showStatDetail(4)">
+                        <div class="segment-content">21 pays</div>
+                    </div>
+                    <div class="wheel-segment" onclick="showStatDetail(5)">
+                        <div class="segment-content">10 fois</div>
+                    </div>
+                    <div class="wheel-segment" onclick="showStatDetail(6)">
+                        <div class="segment-content">6M livres</div>
+                    </div>
+                    <div class="wheel-center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fonction pour changer de page
+        function showPage(pageId) {
+            // Masquer toutes les pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Désactiver tous les boutons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Afficher la page demandée
+            document.getElementById(pageId).classList.add('active');
+            
+            // Activer le bouton correspondant
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if (btn.textContent === document.querySelector(`.nav-btn[onclick="showPage('${pageId}')`).textContent) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Scroller en haut de la page
+            window.scrollTo(0, 0);
+        }
+        
+        // Fonction pour scroller à la section suivante
+        function scrollToNextSection() {
+            const pages = document.querySelectorAll('.page');
+            let currentPageIndex = 0;
+            
+            for (let i = 0; i < pages.length; i++) {
+                if (pages[i].classList.contains('active')) {
+                    currentPageIndex = i;
+                    break;
+                }
+            }
+            
+            const nextPageIndex = (currentPageIndex + 1) % pages.length;
+            showPage(pages[nextPageIndex].id);
+        }
+        
+        // Fonction pour basculer les détails de la chronologie
+        function toggleTimelineEvent(element) {
+            // Fermer tous les détails ouverts
+            document.querySelectorAll('.timeline-event').forEach(event => {
+                if (event !== element) {
+                    event.classList.remove('active');
+                }
+            });
+            
+            // Ouvrir/fermer l'élément cliqué
+            element.classList.toggle('active');
+        }
+        
+        // Données pour les statistiques
+        const statData = [
+            {
+                title: "13 ans de leadership révolutionnaire",
+                description: "De sa libération de prison en 1952 à son assassinat en 1965, Malcolm X a mené une lutte intellectuelle et politique qui a transformé à jamais le mouvement des droits civiques."
+            },
+            {
+                title: "Plus de 300 discours enflammés",
+                description: "Des ghettos de Détroit à l'Université d'Oxford, Malcolm X a captivé les foules par son éloquence brutale. Ses discours, enregistrés par des militants, restent des manifestes brûlants."
+            },
+            {
+                title: "30 000 âmes éveillées",
+                description: "Comme ministre de la Nation of Islam, Malcolm X a transformé une secte de 500 membres en une machine militante de 30 000 fidèles, bâtissant 100 temples à travers les USA."
+            },
+            {
+                title: "21 pays en 9 mois",
+                description: "En 1964, Malcolm X a parcouru l'Afrique et le Moyen-Orient, rencontrant 21 chefs d'État. Son discours au Caire a fait des droits civiques un enjeu international."
+            },
+            {
+                title: "10 arrestations",
+                description: "De sa jeunesse de petit criminel à son activisme politique, Malcolm X a affronté 10 fois la police. Chaque arrestation a renforcé sa détermination révolutionnaire."
+            },
+            {
+                title: "6 millions d'exemplaires",
+                description: "Son autobiographie, publiée après sa mort, est devenue un best-seller mondial. Traduite en 20 langues, elle inspire chaque génération à lutter pour la justice."
+            }
+        ];
+        
+        // Afficher les détails d'une statistique
+        function showStatDetail(index) {
+            const modal = document.getElementById('stat-modal');
+            const title = document.getElementById('stat-modal-title');
+            const desc = document.getElementById('stat-modal-desc');
+            
+            // Les index commencent à 1 dans le HTML mais à 0 en JS
+            const data = statData[index - 1];
+            
+            title.textContent = data.title;
+            desc.textContent = data.description;
+            
+            modal.style.display = 'flex';
+        }
+        
+        // Fermer la fenêtre modale
+        function closeStatModal() {
+            document.getElementById('stat-modal').style.display = 'none';
+        }
+        
+        // Créer des particules pour l'arrière-plan
+        function createParticles() {
+            const container = document.getElementById('dramatic-particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('dramatic-particle');
+                
+                // Tailles et positions aléatoires
+                const size = Math.random() * 30 + 10;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const delay = Math.random() * 5;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                particle.style.animationDelay = `${delay}s`;
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        // Initialiser le site
+        window.onload = function() {
+            createParticles();
+        };
+    </script>
+</body>
+</html>

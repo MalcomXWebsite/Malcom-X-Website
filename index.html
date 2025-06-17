@@ -51,6 +51,16 @@
             padding: 20px 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             transition: var(--transition);
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+            }
+            to {
+                transform: translateY(0);
+            }
         }
 
         .nav-container {
@@ -68,6 +78,12 @@
             color: var(--white);
             text-decoration: none;
             letter-spacing: 1px;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+            color: var(--accent);
         }
 
         .logo span {
@@ -133,6 +149,18 @@
             border-radius: 15px;
             padding: 40px;
             backdrop-filter: blur(5px);
+            animation: fadeInScale 1.5s ease-out;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .hero-title {
@@ -142,6 +170,7 @@
             letter-spacing: -1px;
             line-height: 1.1;
             color: var(--white);
+            text-shadow: 0 0 20px rgba(220, 20, 20, 0.5);
         }
 
         .hero-subtitle {
@@ -176,11 +205,18 @@
         .hero-quote::before {
             top: -20px;
             left: -10px;
+            animation: pulse 2s infinite;
         }
 
         .hero-quote::after {
             bottom: -40px;
             right: -10px;
+            animation: pulse 2s infinite 0.5s;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.1); }
         }
 
         .scroll-indicator {
@@ -240,6 +276,12 @@
             margin-bottom: 80px;
             position: relative;
             padding-bottom: 20px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .section-title::after {
@@ -251,6 +293,12 @@
             width: 80px;
             height: 4px;
             background: var(--accent);
+            animation: expandLine 1.5s ease-out;
+        }
+
+        @keyframes expandLine {
+            from { width: 0; }
+            to { width: 80px; }
         }
 
         /* Timeline Expérience */
@@ -269,6 +317,12 @@
             background: rgba(255, 255, 255, 0.1);
             left: 50%;
             transform: translateX(-50%);
+            animation: growHeight 2s ease-out;
+        }
+
+        @keyframes growHeight {
+            from { height: 0; }
+            to { height: 100%; }
         }
 
         .timeline-item {
@@ -301,6 +355,12 @@
             display: inline-block;
             position: relative;
             padding-left: 20px;
+            animation: pulseText 3s infinite;
+        }
+
+        @keyframes pulseText {
+            0%, 100% { text-shadow: 0 0 5px rgba(220, 20, 20, 0.5); }
+            50% { text-shadow: 0 0 20px rgba(220, 20, 20, 0.9); }
         }
 
         .timeline-year::before {
@@ -313,6 +373,12 @@
             height: 10px;
             background: var(--accent);
             border-radius: 50%;
+            animation: pulseDot 2s infinite;
+        }
+
+        @keyframes pulseDot {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(220, 20, 20, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(220, 20, 20, 0); }
         }
 
         .timeline-content {
@@ -324,10 +390,11 @@
             overflow: hidden;
             transition: var(--transition);
             cursor: pointer;
+            transform-origin: center;
         }
 
         .timeline-content:hover {
-            transform: translateY(-10px);
+            transform: translateY(-10px) rotate(1deg);
             box-shadow: 0 20px 60px rgba(220, 20, 20, 0.3);
         }
 
@@ -365,6 +432,7 @@
             margin-bottom: 60px;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
             border-left: 5px solid var(--accent);
+            animation: fadeIn 1s ease-out;
         }
 
         .project-title {
@@ -373,6 +441,22 @@
             margin-bottom: 30px;
             border-bottom: 2px solid rgba(255, 255, 255, 0.1);
             padding-bottom: 15px;
+            position: relative;
+        }
+
+        .project-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 80px;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.8s ease;
+        }
+
+        .project-section:hover .project-title::after {
+            width: 200px;
         }
 
         .team-members {
@@ -390,6 +474,21 @@
             min-width: 200px;
             text-align: center;
             transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .member-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
         }
 
         .member-card:hover {
@@ -397,10 +496,15 @@
             box-shadow: 0 10px 30px rgba(220, 20, 20, 0.3);
         }
 
+        .member-card:hover::before {
+            transform: scaleX(1);
+        }
+
         .member-name {
             font-size: 1.3rem;
             margin-bottom: 10px;
             color: var(--accent);
+            position: relative;
         }
 
         .project-content {
@@ -419,19 +523,87 @@
             padding: 30px;
             border-radius: 8px;
             transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            height: 120px;
+            cursor: pointer;
+            animation: floatCard 6s infinite ease-in-out;
         }
 
-        .cause-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(220, 20, 20, 0.3);
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .cause-card:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .cause-card:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        .cause-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+
+        .cause-card:hover, .cause-card.expanded {
+            height: auto;
+            z-index: 10;
+            box-shadow: 0 20px 40px rgba(220, 20, 20, 0.4);
+        }
+
+        .cause-card:hover::before, .cause-card.expanded::before {
+            transform: scaleX(1);
+        }
+
+        .cause-card .full-content {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease;
+        }
+
+        .cause-card:hover .full-content, .cause-card.expanded .full-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .cause-title {
             font-size: 1.5rem;
             color: var(--accent);
             margin-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 10px;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .expand-icon {
+            font-size: 1.2rem;
+            transition: transform 0.5s ease;
+        }
+
+        .cause-card:hover .expand-icon, .cause-card.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .cause-card .short-title {
+            display: block;
+        }
+
+        .cause-card:hover .short-title, .cause-card.expanded .short-title {
+            display: none;
         }
 
         .paf-section {
@@ -439,6 +611,24 @@
             padding: 30px;
             border-radius: 8px;
             margin-top: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .paf-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(220, 20, 20, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .paf-section:hover::before {
+            transform: translateX(100%);
         }
 
         .paf-question {
@@ -448,6 +638,16 @@
             font-style: italic;
             padding-left: 20px;
             border-left: 3px solid var(--accent);
+            position: relative;
+        }
+
+        .paf-question::after {
+            content: '?';
+            position: absolute;
+            right: 0;
+            color: var(--accent);
+            font-size: 3rem;
+            opacity: 0.2;
         }
 
         .paf-answer {
@@ -457,6 +657,15 @@
 
         .paf-answer p {
             margin-bottom: 20px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .paf-answer p::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
         }
 
         .documents-grid {
@@ -470,6 +679,14 @@
             background: rgba(40, 40, 40, 0.7);
             padding: 25px;
             border-radius: 8px;
+            transition: var(--transition);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .document-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 20px 40px rgba(220, 20, 20, 0.3);
         }
 
         .document-image {
@@ -480,6 +697,24 @@
             background-position: center;
             margin-bottom: 20px;
             border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .document-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(220, 20, 20, 0.3), transparent);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .document-card:hover .document-image::after {
+            opacity: 1;
         }
 
         .document-title {
@@ -492,6 +727,11 @@
             font-size: 0.9rem;
             color: #888;
             margin-top: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .document-card:hover .bibliography {
+            color: #ccc;
         }
 
         /* Responsive */
@@ -517,6 +757,24 @@
 
             .hero-title {
                 font-size: clamp(2.5rem, 8vw, 4rem);
+            }
+            
+            .cause-card {
+                height: auto;
+            }
+            
+            .cause-card .full-content {
+                display: block;
+                opacity: 1;
+                transform: none;
+            }
+            
+            .cause-card .short-title {
+                display: none;
+            }
+            
+            .expand-icon {
+                display: none;
             }
         }
     </style>
@@ -689,18 +947,33 @@
                 <h3 class="project-title">Causes de la Lutte</h3>
                 <div class="cause-grid">
                     <div class="cause-card">
-                        <h4 class="cause-title">Les lois Jim Crow</h4>
-                        <p>Lois de ségrégation qui séparaient les noirs des blancs dans les espaces publics, transports, écoles, restaurants et hôpitaux. Les noirs étaient privés du droit de vote, de bons emplois et d'une éducation de qualité.</p>
+                        <div class="cause-title">
+                            <span class="short-title">Les lois Jim Crow</span>
+                            <i class="fas fa-chevron-down expand-icon"></i>
+                        </div>
+                        <div class="full-content">
+                            <p>Lois de ségrégation qui séparaient les noirs des blancs dans les espaces publics, transports, écoles, restaurants et hôpitaux. Les noirs étaient privés du droit de vote, de bons emplois et d'une éducation de qualité.</p>
+                        </div>
                     </div>
                     
                     <div class="cause-card">
-                        <h4 class="cause-title">Les violences racistes</h4>
-                        <p>Les personnes noires étaient souvent victimes de violence et de haine, allant jusqu'au lynchage public sans procès équitable. Victimes également de violence policière excessive.</p>
+                        <div class="cause-title">
+                            <span class="short-title">Les violences racistes</span>
+                            <i class="fas fa-chevron-down expand-icon"></i>
+                        </div>
+                        <div class="full-content">
+                            <p>Les personnes noires étaient souvent victimes de violence et de haine, allant jusqu'au lynchage public sans procès équitable. Victimes également de violence policière excessive.</p>
+                        </div>
                     </div>
                     
                     <div class="cause-card">
-                        <h4 class="cause-title">L'injustice sociale et économique</h4>
-                        <p>Les Noirs avaient moins d'accès à la richesse, aux bons logements, emplois et soins de santé. Les employeurs embauchaient rarement des personnes noires pour les bons postes, les maintenant dans la pauvreté.</p>
+                        <div class="cause-title">
+                            <span class="short-title">L'injustice sociale et économique</span>
+                            <i class="fas fa-chevron-down expand-icon"></i>
+                        </div>
+                        <div class="full-content">
+                            <p>Les Noirs avaient moins d'accès à la richesse, aux bons logements, emplois et soins de santé. Les employeurs embauchaient rarement des personnes noires pour les bons postes, les maintenant dans la pauvreté.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -709,33 +982,63 @@
                 <h3 class="project-title">Aspect Choisi: Malcolm X</h3>
                 <div class="cause-grid">
                     <div class="cause-card">
-                        <h4 class="cause-title">Qui</h4>
-                        <p>Malcolm X est un militant qui s'est battu pour les droits des noirs pendant les années 60</p>
+                        <div class="cause-title">
+                            <span class="short-title">Qui</span>
+                            <i class="fas fa-chevron-down expand-icon"></i>
+                        </div>
+                        <div class="full-content">
+                            <p>Malcolm X est un militant qui s'est battu pour les droits des noirs pendant les années 60</p>
+                        </div>
                     </div>
                     
                     <div class="cause-card">
-                        <h4 class="cause-title">Quand</h4>
-                        <p>Il fut un militant de 1952 à 1965. Le 12 avril 1965, il a prononcé son discours le plus célèbre "Le scrutin ou la balle"</p>
+                        <div class="cause-title">
+                            <span class="short-title">Quand</span>
+                            <i class="fas fa-chevron-down expand-icon"></i>
+                        </div>
+                        <div class="full-content">
+                            <p>Il fut un militant de 1952 à 1965. Le 12 avril 1965, il a prononcé son discours le plus célèbre "Le scrutin ou la balle"</p>
+                        </div>
                     </div>
                     
                     <div class="cause-card">
-                        <h4 class="cause-title">Quoi</h4>
-                        <p>Malcolm X luttait pour la liberté, prônant que chaque individu devrait être traité également par tous les moyens nécessaires, y compris l'utilisation de la violence</p>
+                        <div class="cause-title">
+                            <span class="short-title">Quoi</span>
+                            <i class="fas fa-chevron-down expand-icon"></i>
+                        </div>
+                        <div class="full-content">
+                            <p>Malcolm X luttait pour la liberté, prônant que chaque individu devrait être traité également par tous les moyens nécessaires, y compris l'utilisation de la violence</p>
+                        </div>
                     </div>
                     
                     <div class="cause-card">
-                        <h4 class="cause-title">Pourquoi</h4>
-                        <p>Motivé par le racisme vécu dès son plus jeune âge, il voulait promouvoir l'indépendance des Afro-Américains aux États-Unis</p>
+                        <div class="cause-title">
+                            <span class="short-title">Pourquoi</span>
+                            <i class="fas fa-chevron-down expand-icon"></i>
+                        </div>
+                        <div class="full-content">
+                            <p>Motivé par le racisme vécu dès son plus jeune âge, il voulait promouvoir l'indépendance des Afro-Américains aux États-Unis</p>
+                        </div>
                     </div>
                     
                     <div class="cause-card">
-                        <h4 class="cause-title">Où</h4>
-                        <p>Harlem (New York), Boston (Massachusetts), Ghana, Nigeria</p>
+                        <div class="cause-title">
+                            <span class="short-title">Où</span>
+                            <i class="fas fa-chevron-down expand-icon"></i>
+                        </div>
+                        <div class="full-content">
+                            <p>Harlem (New York), Boston (Massachusetts), Ghana, Nigeria</p>
+                        </div>
                     </div>
                     
                     <div class="cause-card">
-                        <h4 class="cause-title">Comment</h4>
-                        <p>Pour accentuer sa lutte, il fonde l'Organisation pour l'Unité Afro-Américaine le 28 juin 1964 et a prononcé plusieurs discours influents</p>
+                        <div class="cause-title">
+                            <span class="short-title">Comment</span>
+                            <i class="fas fa-chevron-down expand-icon"></i>
+                        </div>
+                        <div class="full-content">
+                            <p>Pour accentuer sa lutte, il fonde l'Organisation pour l'Unité Afro-Américaine le 28 juin 1964 et a prononcé plusieurs discours influents</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -848,6 +1151,10 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, 100);
                 }
             });
         }, {
@@ -868,9 +1175,35 @@
             });
         });
         
+        // Gestion des cartes de cause
+        document.querySelectorAll('.cause-card').forEach(card => {
+            // Hover pour révéler le contenu
+            card.addEventListener('mouseenter', function() {
+                this.classList.add('expanded');
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.classList.remove('expanded');
+            });
+            
+            // Clic pour révéler le contenu sur mobile
+            card.addEventListener('click', function() {
+                if (window.innerWidth < 768) {
+                    this.classList.toggle('expanded');
+                }
+            });
+        });
+        
         // Initialiser la première page
         window.onload = function() {
             showPage('home');
+            
+            // Ajouter des animations supplémentaires après le chargement
+            setTimeout(() => {
+                document.querySelectorAll('.project-section').forEach((section, index) => {
+                    section.style.animationDelay = `${index * 0.2}s`;
+                });
+            }, 500);
         };
     </script>
 </body>

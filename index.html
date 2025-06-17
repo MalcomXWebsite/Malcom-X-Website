@@ -713,6 +713,53 @@
         .divider::after {
             right: 10%;
         }
+        
+        /* Navigation pour la timeline */
+        .timeline-nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 30px;
+            padding: 15px 0;
+        }
+        
+        .timeline-nav-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(220, 20, 20, 0.4);
+        }
+        
+        .timeline-nav-btn:hover {
+            background: var(--accent-dark);
+            transform: scale(1.1);
+        }
+        
+        .timeline-nav-btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+            opacity: 0.5;
+            transform: none;
+        }
+        
+        .timeline-counter {
+            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 20px;
+            border-radius: 30px;
+            min-width: 120px;
+            text-align: center;
+        }
 
         /* Responsive */
         @media (max-width: 992px) {
@@ -768,6 +815,12 @@
             .timeline-content {
                 padding: 20px;
             }
+            
+            .timeline-nav-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+            }
         }
         
         @media (max-width: 480px) {
@@ -785,6 +838,15 @@
             
             .cause-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .timeline-nav {
+                gap: 15px;
+            }
+            
+            .timeline-nav-btn {
+                width: 40px;
+                height: 40px;
             }
         }
     </style>
@@ -935,6 +997,17 @@
                             </p>
                         </div>
                     </div>
+                </div>
+                
+                <!-- Navigation pour la timeline -->
+                <div class="timeline-nav">
+                    <button id="timeline-prev" class="timeline-nav-btn" disabled>
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <div id="timeline-counter" class="timeline-counter">1/9</div>
+                    <button id="timeline-next" class="timeline-nav-btn">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
                 </div>
             </div>
             
@@ -1169,6 +1242,62 @@
             });
         });
         
+        // Navigation pour la timeline
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        const prevBtn = document.getElementById('timeline-prev');
+        const nextBtn = document.getElementById('timeline-next');
+        const counter = document.getElementById('timeline-counter');
+        let currentTimelineIndex = 0;
+        
+        // Fonction pour mettre à jour la navigation
+        function updateTimelineNav() {
+            // Mettre à jour le compteur
+            counter.textContent = `${currentTimelineIndex + 1}/${timelineItems.length}`;
+            
+            // Activer/désactiver les boutons
+            prevBtn.disabled = currentTimelineIndex === 0;
+            nextBtn.disabled = currentTimelineIndex === timelineItems.length - 1;
+            
+            // Scroller vers l'élément actif
+            const activeItem = timelineItems[currentTimelineIndex];
+            activeItem.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center',
+                inline: 'center'
+            });
+            
+            // Ajouter un effet visuel pour l'élément actif
+            timelineItems.forEach(item => item.classList.remove('active'));
+            activeItem.classList.add('active');
+        }
+        
+        // Navigation précédente
+        prevBtn.addEventListener('click', () => {
+            if (currentTimelineIndex > 0) {
+                currentTimelineIndex--;
+                updateTimelineNav();
+            }
+        });
+        
+        // Navigation suivante
+        nextBtn.addEventListener('click', () => {
+            if (currentTimelineIndex < timelineItems.length - 1) {
+                currentTimelineIndex++;
+                updateTimelineNav();
+            }
+        });
+        
+        // Navigation par clavier
+        document.addEventListener('keydown', (e) => {
+            if (document.getElementById('project').classList.contains('active')) {
+                if (e.key === 'ArrowLeft' && !prevBtn.disabled) {
+                    prevBtn.click();
+                } else if (e.key === 'ArrowRight' && !nextBtn.disabled) {
+                    nextBtn.click();
+                }
+            }
+        });
+        
         // Initialiser la première page
         window.onload = function() {
             showPage('home');
@@ -1178,6 +1307,12 @@
                 document.querySelectorAll('.project-section').forEach((section, index) => {
                     section.style.animationDelay = `${index * 0.2}s`;
                 });
+                
+                // Initialiser la navigation de la timeline
+                if (timelineItems.length > 0) {
+                    timelineItems[0].classList.add('active');
+                    updateTimelineNav();
+                }
             }, 500);
         };
     </script>
